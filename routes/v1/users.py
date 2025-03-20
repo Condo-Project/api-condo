@@ -6,7 +6,7 @@
 from typing import List, Optional
 from uuid import UUID
 from datetime import date, datetime
-from fastapi import APIRouter, status, Depends, HTTPException, Query  # , Response
+from fastapi import Form, Form, Form, Form, APIRouter, status, Depends, HTTPException, Query  # , Response
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
@@ -22,6 +22,7 @@ from core.hashing import Hasher
 from models.user import UserModel
 from schemas.user import (
     UserSchema,
+    UserSchemaBase,
     UserCreate as UserSchemaCreate,
     UserChangePassword,
 
@@ -29,13 +30,14 @@ from schemas.user import (
 
 from services.exports import (
     user_service,
+    user_role_service
 )
 
 from common.pagination import (
     PaginatedResponse,
 )
 
-router = APIRouter()
+router = APIRouter(prefix="/users", tags=["users"])
 
 
 # GET all user
@@ -47,6 +49,16 @@ async def get_all(
     Return the all users
     """
     return await user_service.get_all()
+
+# GET all user
+@router.get(r"/get-residents")
+async def get_residents(
+    current_user: UserSchema = Depends(get_current_user)
+):
+    """
+    Return the all users
+    """
+    return await user_role_service.get_residents()
 
 
 # GET current user
@@ -85,3 +97,13 @@ async def login(
     """
 
     return await user_service.login(form_data)
+
+@router.post("/verify-username")
+async def verify_username(
+    user_data: UserSchemaBase
+):
+    """
+    Login
+    """
+
+    return await user_service.verify_username(user_data.username)

@@ -103,3 +103,15 @@ def validate_client(client_id: str = Header(...), client_secret: str = Header(..
         if verify_password(client_secret, settings.HASHED_SECRET):
             return True
     raise CREDENTIAL_EXCEPTION
+
+async def is_admin(current_user: Session = Depends(get_current_user)):
+    """
+    is Admin
+    """
+    if not current_user.is_staff:
+       raise HTTPException(
+           status_code=status.HTTP_403_FORBIDDEN,
+           detail="Permissão negada. Acesso permitido apenas para Administrador.",
+       )
+
+    return current_user

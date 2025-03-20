@@ -39,7 +39,7 @@ class StartUpService:
     @postgres_transactional
     async def create_role(self):
         # base_roles = {"Agricultor", "Investidor", "Administrador"}
-        roles = {"Agricultor", "Investidor", "Administrador"}.difference({role.name for role in await self.role_repository.get_all_include_deleted(FilterSchema())})
+        roles = {"Morador", "Coordenador", "Subcoordenador"}.difference({role.name for role in await self.role_repository.get_all_include_deleted(FilterSchema())})
         new_roles:List[RoleModel] = [
             RoleModel(
                 name=role_name,

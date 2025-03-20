@@ -13,7 +13,7 @@ from core.config import settings
 #     tags_doc_string
 # )
 # from app.db.session import engine
-# from services.exports import startup_service
+from services.exports import startup_service
 
 
 def include_router(app_server):
@@ -69,7 +69,7 @@ def start_application():
     @app_server.on_event("startup")
     async def startup_event():
         print("\033[34m>>>>\033[36m Inicializando Roles\033[0m")
-        # await startup_service.create_role()
+        await startup_service.create_role()
 
     @app_server.on_event("shutdown")
     async def shutdown_event():

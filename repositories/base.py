@@ -11,7 +11,8 @@ from schemas.exports import (
 from sqlalchemy import (
     column,
     String,
-    Boolean
+    Boolean,
+    Enum
 )
 
 
@@ -95,7 +96,7 @@ class BaseRepository:
                 if isinstance(column.type, Boolean):
                     filter_clause = column == bool(int(filter.filter_value))
 
-                elif isinstance(column.type, sqlalchemy_uuid):
+                elif isinstance(column.type, Enum) or isinstance(column.type, sqlalchemy_uuid):
                     filter_clause = column == filter.filter_value
                 else:
                     filter_clause = column.ilike(f"{filter.filter_value}%")

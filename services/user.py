@@ -38,7 +38,6 @@ from schemas.exports import (
     FilterSchema,
 )
 
-from services.OTPService import otp_service
 
 
 class UserService:
@@ -52,6 +51,19 @@ class UserService:
         """
         filter = FilterSchema()
         return await self.user_repository.get_all(filter)
+    
+    @postgres_transactional
+    async def verify_username( self, username:str )-> UserSchema:
+        """
+        Get All Users
+        """
+        filter = FilterSchema(
+            filter_column="username",
+            filter_value=username,
+        )
+        if (await self.user_repository.get_one_by_filter(filter)):
+            return {"is_valid": True}
+        return {"is_valid": False}
 
     
     @postgres_transactional
