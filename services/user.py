@@ -73,7 +73,7 @@ class UserService:
 
             new_user: UserModel = UserModel()
             self.user_repository.set_attrs(new_user, user_data.dict(exclude_unset=True))
-            new_user.secret_key = otp_service.generate_secret_key()
+            # new_user.secret_key = otp_service.generate_secret_key()
             user = await self.user_repository.save(new_user)
 
             # if user:      
