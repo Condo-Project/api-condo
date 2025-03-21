@@ -14,6 +14,7 @@ class LocalityCreate(LocalityBase):
 
 class LocalityResponse(LocalityBase):
     uuid: UUID4
+    parent_name: Optional[str] = None
     sub_localities: List["LocalityResponse"] = []
 
     class Config:

@@ -1,2 +1,3 @@
 from repositories.base import BaseRepository
+from repositories.locality_repository import LocalityRepository
 from repositories.user_role_repository import UserRoleRepository

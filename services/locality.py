@@ -22,7 +22,7 @@ from core.config import settings
 from core.security import password_generator
 
 from repositories.exports import (
-    BaseRepository,
+    LocalityRepository,
 )
 
 
@@ -44,14 +44,14 @@ from schemas.exports import (
 
 class LocalityService:
     def __init__(self, target = None):
-        self.locality_repository = BaseRepository(LocalityModel)
+        self.locality_repository = LocalityRepository()
     
     @postgres_transactional
-    async def get_all( self )-> LocalityResponse:
+    async def get_all( self, filter:FilterSchema = None )-> LocalityResponse:
         """
         Get All Localities
         """
-        filter = FilterSchema()
+        # filter = FilterSchema()
         return await self.locality_repository.get_all(filter)
 
     
